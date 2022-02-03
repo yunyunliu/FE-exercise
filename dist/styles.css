@@ -1,0 +1,41 @@
+* {
+  color: #292929;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+#occupation,
+#state,
+#pass,
+.gray-border {
+  border: 1px solid #C0BFBF;
+  border-radius: 3px;
+}
+
+.btn-submit,
+#state,
+#occupation,
+select,
+input {
+  width: 300px;
+  height: 30px;
+  margin: 5px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  width: 300px;
+  text-align: left;
+}
+
+.btn-submit {
+  background-color: #3A2778;
+  color: white;
+  border-radius: 3px;
+  margin: 10px;
+  border: none;
+}
