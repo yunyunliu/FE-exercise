@@ -1,6 +1,7 @@
 * {
   color: #292929;
   font-family: "Source Sans Pro", sans-serif;
+  box-sizing: border-box;
 }
 
 #occupation,
@@ -12,14 +13,22 @@
 }
 
 .btn-submit,
-#state,
-#occupation,
-select,
 input {
   width: 300px;
   height: 30px;
-  margin: 5px;
+  padding: 0;
+  margin: 10px
 }
+
+input {
+  text-indent: 10px;;
+}
+select {
+  width: 302px;
+  height: 32px;
+  margin: 10px
+}
+
 
 form {
   display: flex;
@@ -38,4 +47,21 @@ label {
   border-radius: 3px;
   margin: 10px;
   border: none;
+  padding: 0;
+}
+
+.btn-submit:hover {
+  background-color: #4d359c;
+}
+
+.btn-submit:active {
+  transform: translateY(0.20rem);
+}
+
+label > span {
+  color: #F7723E;
+}
+
+input::placeholder {
+  color: #E5E5E5
 }

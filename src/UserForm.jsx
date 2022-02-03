@@ -14,15 +14,16 @@ const UserForm = () => {
 
   return (
     <form className='gray-border'>
-      <label htmlFor='name'> Full Name  </label>
-      <input id='name' className='gray-border' required/>
-      <label htmlFor='email'> Email </label>
-      <input id='email' type='email' className='gray-border' required/>
-      <label htmlFor='pass'> Password  </label>
-      <input id='pass' type='password' required/>
-      <label htmlFor='occupation'> Occupation </label>
+      <h2>Sign-Up</h2>
+      <label htmlFor='name'> Full Name <span>*</span></label>
+      <input id='name' className='gray-border' placeHolder='Name' required/>
+      <label htmlFor='email'> Email <span>*</span></label>
+      <input id='email' type='email' className='gray-border'  placeHolder='Email'  required/>
+      <label htmlFor='pass'> Password  <span>*</span></label>
+      <input id='pass' type='password' placeHolder='Password' required/>
+      <label htmlFor='occupation'> Occupation <span>*</span></label>
       <select id='occupation' required>
-        <option value=''>Select</option>
+        <option value=''>Select Occupation</option>
           { options
             ? options.occupations.map((occ, i) => (
               <option key={i} value={occ}>{occ}</option>
@@ -30,9 +31,9 @@ const UserForm = () => {
             : null
         }
       </select>
-      <label htmlFor='state'>State</label>
+      <label htmlFor='state'>State <span>*</span></label>
       <select id='state' required>
-        <option value=''>Select</option>
+        <option value=''>Select State</option>
           { options
             ? options.states.map(({ name, abbreviation }) => (
               <option key={abbreviation} value={abbreviation}>{name}</option>
