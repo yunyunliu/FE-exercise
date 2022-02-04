@@ -1,8 +1,17 @@
 import React from 'react';
 
-const Notification = ({ text }) => {
+const Notification = ({ title, missing }) => {
   return (
-    <div className='notification'>{text}</div>
+    <div className='notification'>
+      <div>{title}</div>
+      <ul>
+        {
+          missing.map(field => (
+            <li key={field}>{field}</li>
+          ))
+        }
+      </ul>
+    </div>
   )
 };
 

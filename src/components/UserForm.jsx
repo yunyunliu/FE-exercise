@@ -12,8 +12,9 @@ const UserForm = () => {
   const [occupation, setOccupation] = useState('');
   const [state, setState] = useState('');
 
-  const [showNote, setShowNote] = useState(true);
-  const [message, setMessage] = useState('testtest');
+  const [showNote, setShowNote] = useState(false);
+  const [noteTitle, setNoteTitle] = useState('');
+  const [missing, setMissing] = useState(null);
 
   const url = 'https://frontend-take-home.fetchrewards.com/form';
 
@@ -24,6 +25,21 @@ const UserForm = () => {
       .catch(err => {console.log('error:', err.message)});
     }, []);
 
+  const validateData = formData => {
+    const { name, email, password, occupation, state } = formData;
+    if (!name || !email || !password || !occupation || !state ) {
+      setShowNote(true);
+      setNoteTitle('Missing required fields')
+      const missing = [];
+      for (const field in formData) {
+        if (!formData[field]) {
+          missing.push(field);
+        }
+      }
+      setMissing(missing);
+    }
+  }
+
   const handleSubmit = async e => {
     e.preventDefault(); // prevent page reload
     const user = {
@@ -33,6 +49,8 @@ const UserForm = () => {
       occupation,
       state
     }
+    validateData(user);
+
     const res = await fetch(url, {
       method: 'POST',
       body: JSON.stringify(user),
@@ -52,7 +70,7 @@ const UserForm = () => {
     <form onSubmit={e => handleSubmit(e)}>
       <h2>Sign-Up</h2>
       { showNote
-          ? <Notification text={message} />
+          ? <Notification title={noteTitle} missing={missing} />
           : null }
       <label htmlFor='name'> Full Name <span>*</span></label>
       <input
@@ -61,7 +79,6 @@ const UserForm = () => {
         placeholder='Name'
         value={name}
         onChange={({ target }) => {setName(target.value)}}
-        required
      />
       <label htmlFor='email'> Email <span>*</span></label>
       <input
@@ -71,7 +88,6 @@ const UserForm = () => {
         placeholder='Email'
         value={email}
         onChange={({ target }) => {setEmail(target.value)}}
-        required
      />
       <label htmlFor='pass'> Password  <span>*</span></label>
       <input
