@@ -13,7 +13,7 @@ const UserForm = () => {
   const [state, setState] = useState('');
 
   const [showNote, setShowNote] = useState(false);
-  const [noteTitle, setNoteTitle] = useState('');
+  // const [noteTitle, setNoteTitle] = useState('');
   const [missing, setMissing] = useState(null);
 
   const url = 'https://frontend-take-home.fetchrewards.com/form';
@@ -25,11 +25,11 @@ const UserForm = () => {
       .catch(err => {console.log('error:', err.message)});
     }, []);
 
-  const validateData = formData => {
+  const validate = formData => {
     const { name, email, password, occupation, state } = formData;
     if (!name || !email || !password || !occupation || !state ) {
       setShowNote(true);
-      setNoteTitle('Missing required fields')
+      // setNoteTitle('Missing required fields')
       const missing = [];
       for (const field in formData) {
         if (!formData[field]) {
@@ -42,27 +42,27 @@ const UserForm = () => {
 
   const handleSubmit = async e => {
     e.preventDefault(); // prevent page reload
-    const user = {
-      name,
-      email,
-      password,
-      occupation,
-      state
+    const formData = {
+    name,
+    email,
+    password,
+    occupation,
+    state
     }
-    validateData(user);
-
-    const res = await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(user),
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-    if (res.ok) {
-      setName(''); // clear form fields
-      setEmail('');
-      setPassword('');
-      setOccupation('');
-      setState('');
+    validate(formData);
+    if (!showNote) {
+      const res = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' }
+      });
+      if (res.ok) {
+        setName(''); // clear form fields
+        setEmail('');
+        setPassword('');
+        setOccupation('');
+        setState('');
+      }
     }
   }
 
@@ -70,7 +70,7 @@ const UserForm = () => {
     <form onSubmit={e => handleSubmit(e)}>
       <h2>Sign-Up</h2>
       { showNote
-          ? <Notification title={noteTitle} missing={missing} />
+          ? <Notification setShow={setShowNote} missing={missing} />
           : null }
       <label htmlFor='name'> Full Name <span>*</span></label>
       <input

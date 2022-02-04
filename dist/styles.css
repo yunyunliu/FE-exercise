@@ -4,6 +4,14 @@
   box-sizing: border-box;
 }
 
+.red-text {
+   color:#DB1F1F;
+}
+
+.bold {
+  font-weight: 700;
+}
+
 #occupation,
 #state,
 #pass,
@@ -75,8 +83,6 @@ select:focus {
 
 .notification {
   border: 1px solid #DB1F1F;
-  color:#DB1F1F;`
-  /* text-align: center; */
   background-color: #FDF6F6;
   width: 300px;
   border-radius: 3px;
