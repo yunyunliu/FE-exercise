@@ -3,6 +3,12 @@ import { useState, useEffect } from 'react';
 
 const UserForm = () => {
   const [options, setOptions] = useState(null);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [occupation, setOccupation] = useState('');
+  const [state, setState] = useState('');
+
   const url = 'https://frontend-take-home.fetchrewards.com/form';
 
   useEffect(() => {
@@ -13,16 +19,39 @@ const UserForm = () => {
     }, []);
 
   return (
-    <form className='gray-border'>
+    <form>
       <h2>Sign-Up</h2>
       <label htmlFor='name'> Full Name <span>*</span></label>
-      <input id='name' className='gray-border' placeHolder='Name' required/>
+      <input
+        id='name'
+        className='gray-border'
+        placeHolder='Name'
+        value={name}
+        onChange={({ target }) => { setName(target.value)} }
+        required />
       <label htmlFor='email'> Email <span>*</span></label>
-      <input id='email' type='email' className='gray-border'  placeHolder='Email'  required/>
+      <input
+        id='email'
+        type='email'
+        className='gray-border'
+        placeHolder='Email'
+        value={email}
+        onChange={({ target }) => { setEmail(target.value)} }
+        required />
       <label htmlFor='pass'> Password  <span>*</span></label>
-      <input id='pass' type='password' placeHolder='Password' required/>
+      <input
+        id='pass'
+        type='password'
+        placeHolder='Password'
+        value={password}
+        onChange={({ target }) => { setPassword(target.value)} }
+        required />
       <label htmlFor='occupation'> Occupation <span>*</span></label>
-      <select id='occupation' required>
+      <select
+        id='occupation'
+        value={occupation}
+        onChange={({ target }) => { setOccupation(target.value)} }
+        required>
         <option value=''>Select Occupation</option>
           { options
             ? options.occupations.map((occ, i) => (
@@ -32,7 +61,11 @@ const UserForm = () => {
         }
       </select>
       <label htmlFor='state'>State <span>*</span></label>
-      <select id='state' required>
+      <select
+        id='state'
+        value={state}
+        onChange={({ target }) => { setState(target.value)} }
+        required>
         <option value=''>Select State</option>
           { options
             ? options.states.map(({ name, abbreviation }) => (
