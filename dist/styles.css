@@ -55,7 +55,7 @@ label {
 }
 
 .btn-submit:active {
-  transform: translateY(0.20rem);
+   background-color: #3A2778;
 }
 
 label > span {
