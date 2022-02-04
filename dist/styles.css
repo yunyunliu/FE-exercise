@@ -20,15 +20,17 @@ input {
   margin: 10px
 }
 
+select,
 input {
-  text-indent: 10px;;
-}
-select {
-  width: 302px;
-  height: 32px;
-  margin: 10px
+  text-indent: 10px;
 }
 
+select {
+  /* appearance: none; */
+  width: 302px;
+  height: 32px;
+  margin: 10px;
+}
 
 form {
   display: flex;
@@ -69,4 +71,10 @@ input::placeholder {
 input:focus,
 select:focus {
   outline-color: #3A2778;
+}
+
+.notification {
+  width: 100%;
+  border: 1px solid #4d359c;
+  text-align: center;
 }

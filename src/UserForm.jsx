@@ -18,7 +18,7 @@ const UserForm = () => {
       .catch(err => {console.log('error:', err.message)});
     }, []);
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const user = {
       name,
@@ -27,7 +27,19 @@ const UserForm = () => {
       occupation,
       state
     }
-    console.log(user)
+    const res = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (res.ok) {
+      setName('');
+      setEmail('');
+      setPassword('');
+      setOccupation('');
+      setState('');
+    }
   }
 
   return (
