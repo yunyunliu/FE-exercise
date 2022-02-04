@@ -18,40 +18,56 @@ const UserForm = () => {
       .catch(err => {console.log('error:', err.message)});
     }, []);
 
+  const handleSubmit = e => {
+    e.preventDefault();
+    const user = {
+      name,
+      email,
+      password,
+      occupation,
+      state
+    }
+    console.log(user)
+  }
+
   return (
-    <form>
+    <form onSubmit={e => handleSubmit(e)}>
       <h2>Sign-Up</h2>
       <label htmlFor='name'> Full Name <span>*</span></label>
       <input
         id='name'
         className='gray-border'
-        placeHolder='Name'
+        placeholder='Name'
         value={name}
-        onChange={({ target }) => { setName(target.value)} }
-        required />
+        onChange={({ target }) => { setName(target.value)}}
+        required
+     />
       <label htmlFor='email'> Email <span>*</span></label>
       <input
         id='email'
         type='email'
         className='gray-border'
-        placeHolder='Email'
+        placeholder='Email'
         value={email}
-        onChange={({ target }) => { setEmail(target.value)} }
-        required />
+        onChange={({ target }) => { setEmail(target.value)}}
+        required
+     />
       <label htmlFor='pass'> Password  <span>*</span></label>
       <input
         id='pass'
         type='password'
-        placeHolder='Password'
+        placeholder='Password'
         value={password}
-        onChange={({ target }) => { setPassword(target.value)} }
-        required />
+        onChange={({ target }) => { setPassword(target.value)}}
+        required
+      />
       <label htmlFor='occupation'> Occupation <span>*</span></label>
       <select
         id='occupation'
         value={occupation}
-        onChange={({ target }) => { setOccupation(target.value)} }
-        required>
+        onChange={({ target }) => { setOccupation(target.value)}}
+        required
+       >
         <option value=''>Select Occupation</option>
           { options
             ? options.occupations.map((occ, i) => (
@@ -64,8 +80,9 @@ const UserForm = () => {
       <select
         id='state'
         value={state}
-        onChange={({ target }) => { setState(target.value)} }
-        required>
+        onChange={({ target }) => { setState(target.value)}}
+        required
+       >
         <option value=''>Select State</option>
           { options
             ? options.states.map(({ name, abbreviation }) => (
@@ -74,7 +91,7 @@ const UserForm = () => {
             : null
         }
       </select>
-      <button class='btn-submit'>Create Account</button>
+      <button className='btn-submit'> Create Account</button>
     </form>
   );
 };

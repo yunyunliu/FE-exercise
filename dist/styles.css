@@ -65,3 +65,8 @@ label > span {
 input::placeholder {
   color: #E5E5E5
 }
+
+input:focus,
+select:focus {
+  outline-color: #3A2778;
+}
