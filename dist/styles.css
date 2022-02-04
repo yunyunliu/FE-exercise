@@ -74,7 +74,12 @@ select:focus {
 }
 
 .notification {
-  width: 100%;
-  border: 1px solid #4d359c;
-  text-align: center;
+  border: 1px solid #DB1F1F;
+  color:#DB1F1F;`
+  /* text-align: center; */
+  background-color: #FDF6F6;
+  width: 300px;
+  border-radius: 3px;
+  margin: 10px;
+  padding: 10px;
 }
