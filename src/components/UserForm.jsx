@@ -13,7 +13,6 @@ const UserForm = () => {
   const [state, setState] = useState('');
 
   const [showNote, setShowNote] = useState(false);
-  // const [noteTitle, setNoteTitle] = useState('');
   const [missing, setMissing] = useState(null);
 
   const url = 'https://frontend-take-home.fetchrewards.com/form';
@@ -29,7 +28,6 @@ const UserForm = () => {
     const { name, email, password, occupation, state } = formData;
     if (!name || !email || !password || !occupation || !state ) {
       setShowNote(true);
-      // setNoteTitle('Missing required fields')
       const missing = [];
       for (const field in formData) {
         if (!formData[field]) {
@@ -53,7 +51,7 @@ const UserForm = () => {
     if (!showNote) {
       const res = await fetch(url, {
         method: 'POST',
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
         headers: { 'Content-Type': 'application/json' }
       });
       if (res.ok) {
@@ -129,6 +127,5 @@ const UserForm = () => {
     </form>
   );
 };
-
 
 export default UserForm;
