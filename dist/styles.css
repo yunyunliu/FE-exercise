@@ -89,3 +89,7 @@ select:focus {
   margin: 10px;
   padding: 10px;
 }
+
+.note-list {
+  margin: 0;
+}

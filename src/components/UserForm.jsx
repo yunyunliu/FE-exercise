@@ -13,7 +13,8 @@ const UserForm = () => {
   const [state, setState] = useState('');
 
   const [missing, setMissing] = useState([]);
-  const [showError, setShowError] = useState(false);
+  // const [showError, setShowError] = useState(true);
+  const [errMessage, setErrMessage] = useState('');
 
   const url = 'https://frontend-take-home.fetchrewards.com/form';
 
@@ -27,20 +28,21 @@ const UserForm = () => {
   const handleSubmit = async e => {
     e.preventDefault(); // prevent page reload
     if (name && email && password && occupation && state) { // if fields all filled, send post request
-      setMissing([]);
+      setMissing([]); // clear missing fields so Notification component is not displayed
       const res = await fetch(url, {
         method: 'POST',
         body: JSON.stringify({ name, email, password, occupation, state }),
         headers: { 'Content-Type': 'application/json' }
       });
       if (res.ok) {
+        setErrMessage('');
         setName(''); // clear form fields
         setEmail('');
         setPassword('');
         setOccupation('');
         setState('');
       } else {
-        setShowError(true);
+        setErrMessage('An error occurred. Try again later.');
       }
     } else {
       const missing = []; // contains names of fields left empty by user; is passed into Notification component
@@ -55,7 +57,9 @@ const UserForm = () => {
   }
 
   const ErrorMessage = () => (
-    <p className='red-text bold error-text'>An error occurred. Try again later.</p>
+    <div className='notification'>
+       <span className='red-text bold error-text'>{errMessage}</span>
+    </div>
   );
 
   return (
@@ -64,7 +68,7 @@ const UserForm = () => {
       { missing.length > 0
           ? <Notification missing={missing} />
           : null }
-      { showError ? ErrorMessage() : null }
+      { errMessage ? ErrorMessage() : null }
       <label htmlFor='name'> Full Name <span>*</span></label>
       <input
         id='name'
