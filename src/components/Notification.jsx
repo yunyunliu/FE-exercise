@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Notification = ({ missing, setShow }) => {
-  setTimeout(() => {setShow(false)}, 3000)
+const Notification = ({ missing }) => {
   return (
     <div className='notification'>
       <div className='red-text bold'>Missing required fields</div>

@@ -13,7 +13,7 @@ const UserForm = () => {
   const [state, setState] = useState('');
 
   const [showNote, setShowNote] = useState(false);
-  const [missing, setMissing] = useState(null);
+  const [missing, setMissing] = useState([]);
 
   const url = 'https://frontend-take-home.fetchrewards.com/form';
 
@@ -24,34 +24,12 @@ const UserForm = () => {
       .catch(err => {console.log('error:', err.message)});
     }, []);
 
-  const validate = formData => {
-    const { name, email, password, occupation, state } = formData;
-    if (!name || !email || !password || !occupation || !state ) {
-      setShowNote(true);
-      const missing = [];
-      for (const field in formData) {
-        if (!formData[field]) {
-          missing.push(field);
-        }
-      }
-      setMissing(missing);
-    }
-  }
-
   const handleSubmit = async e => {
     e.preventDefault(); // prevent page reload
-    const formData = {
-    name,
-    email,
-    password,
-    occupation,
-    state
-    }
-    validate(formData);
-    if (!showNote) {
+    if (name && email && password && occupation && state) { // if fields all filled, send post request
       const res = await fetch(url, {
         method: 'POST',
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ name, email, password, occupation, state }),
         headers: { 'Content-Type': 'application/json' }
       });
       if (res.ok) {
@@ -61,14 +39,23 @@ const UserForm = () => {
         setOccupation('');
         setState('');
       }
+    } else {
+      const missing = []; // contains names of fields left empty by user; is passed into Notification component
+      const userData = { name, email, password, occupation, state };
+      for (const field in userData) {
+        if (!userData[field]) {
+          missing.push(field);
+        }
+      }
+      setMissing(missing);
     }
   }
 
   return (
     <form onSubmit={e => handleSubmit(e)}>
       <h2>Sign-Up</h2>
-      { showNote
-          ? <Notification setShow={setShowNote} missing={missing} />
+      { missing.length > 0
+          ? <Notification missing={missing} />
           : null }
       <label htmlFor='name'> Full Name <span>*</span></label>
       <input
@@ -81,7 +68,7 @@ const UserForm = () => {
       <label htmlFor='email'> Email <span>*</span></label>
       <input
         id='email'
-        type='email'
+        // type='email'
         className='gray-border'
         placeholder='Email'
         value={email}
