@@ -12,8 +12,8 @@ const UserForm = () => {
   const [occupation, setOccupation] = useState('');
   const [state, setState] = useState('');
 
-  const [showNote, setShowNote] = useState(false);
   const [missing, setMissing] = useState([]);
+  const [showError, setShowError] = useState(false);
 
   const url = 'https://frontend-take-home.fetchrewards.com/form';
 
@@ -27,6 +27,7 @@ const UserForm = () => {
   const handleSubmit = async e => {
     e.preventDefault(); // prevent page reload
     if (name && email && password && occupation && state) { // if fields all filled, send post request
+      setMissing([]);
       const res = await fetch(url, {
         method: 'POST',
         body: JSON.stringify({ name, email, password, occupation, state }),
@@ -38,6 +39,8 @@ const UserForm = () => {
         setPassword('');
         setOccupation('');
         setState('');
+      } else {
+        setShowError(true);
       }
     } else {
       const missing = []; // contains names of fields left empty by user; is passed into Notification component
@@ -51,12 +54,17 @@ const UserForm = () => {
     }
   }
 
+  const ErrorMessage = () => (
+    <p className='red-text bold error-text'>An error occurred. Try again later.</p>
+  );
+
   return (
     <form onSubmit={e => handleSubmit(e)}>
       <h2>Sign-Up</h2>
       { missing.length > 0
           ? <Notification missing={missing} />
           : null }
+      { showError ? ErrorMessage() : null }
       <label htmlFor='name'> Full Name <span>*</span></label>
       <input
         id='name'
