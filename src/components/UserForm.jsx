@@ -13,7 +13,7 @@ const UserForm = () => {
   const [state, setState] = useState('');
 
   const [missing, setMissing] = useState([]);
-  // const [showError, setShowError] = useState(true);
+  const [view, setView] = useState('success');
   const [errMessage, setErrMessage] = useState('');
 
   const url = 'https://frontend-take-home.fetchrewards.com/form';
@@ -35,12 +35,13 @@ const UserForm = () => {
         headers: { 'Content-Type': 'application/json' }
       });
       if (res.ok) {
-        setErrMessage('');
-        setName(''); // clear form fields
-        setEmail('');
-        setPassword('');
-        setOccupation('');
-        setState('');
+        // setErrMessage('');
+        // setName(''); // clear form fields
+        // setEmail('');
+        // setPassword('');
+        // setOccupation('');
+        // setState('');
+        setView('success')
       } else {
         setErrMessage('An error occurred. Try again later.');
       }
@@ -62,69 +63,77 @@ const UserForm = () => {
     </div>
   );
 
-  return (
-    <form onSubmit={e => handleSubmit(e)}>
-      <h2>Sign-Up</h2>
-      { missing.length > 0
-          ? <Notification missing={missing} />
-          : null }
-      { errMessage ? ErrorMessage() : null }
-      <label htmlFor='name'> Full Name <span>*</span></label>
-      <input
-        id='name'
-        className='gray-border'
-        placeholder='Name'
-        value={name}
-        onChange={({ target }) => {setName(target.value)}}
-     />
-      <label htmlFor='email'> Email <span>*</span></label>
-      <input
-        id='email'
-        // type='email'
-        className='gray-border'
-        placeholder='Email'
-        value={email}
-        onChange={({ target }) => {setEmail(target.value)}}
-     />
-      <label htmlFor='pass'> Password  <span>*</span></label>
-      <input
-        id='pass'
-        type='password'
-        placeholder='Password'
-        value={password}
-        onChange={({ target }) => {setPassword(target.value)}}
-      />
-      <label htmlFor='occupation'> Occupation <span>*</span></label>
-      <select
-        id='occupation'
-        value={occupation}
-        onChange={({ target }) => {setOccupation(target.value)}}
-      >
-        <option value=''>Select Occupation</option>
-          { options
-            ? options.occupations.map((occ, i) => (
-              <option key={i} value={occ}>{occ}</option>
-            ))
-            : null
-          }
-      </select>
-      <label htmlFor='state'>State <span>*</span></label>
-      <select
-        id='state'
-        value={state}
-        onChange={({ target }) => { setState(target.value)}}
-      >
-        <option value=''>Select State</option>
-          { options
-            ? options.states.map(({ name, abbreviation }) => (
-              <option key={abbreviation} value={abbreviation}>{name}</option>
-            ))
-            : null
-          }
-      </select>
-      <button className='btn-submit'> Create Account</button>
-    </form>
-  );
+  if (view === 'success') {
+    return (
+      <div>
+        <p>Successfully created new user.</p>
+      </div>
+    )
+  } else {
+    return (
+      <form onSubmit={e => handleSubmit(e)}>
+        <h2>Sign-Up</h2>
+        { missing.length > 0
+            ? <Notification missing={missing} />
+            : null }
+        { errMessage ? ErrorMessage() : null }
+        <label htmlFor='name'> Full Name <span>*</span></label>
+        <input
+          id='name'
+          className='gray-border'
+          placeholder='Name'
+          value={name}
+          onChange={({ target }) => {setName(target.value)}}
+        />
+        <label htmlFor='email'> Email <span>*</span></label>
+        <input
+          id='email'
+          // type='email'
+          className='gray-border'
+          placeholder='Email'
+          value={email}
+          onChange={({ target }) => {setEmail(target.value)}}
+        />
+        <label htmlFor='pass'> Password  <span>*</span></label>
+        <input
+          id='pass'
+          type='password'
+          placeholder='Password'
+          value={password}
+          onChange={({ target }) => {setPassword(target.value)}}
+        />
+        <label htmlFor='occupation'> Occupation <span>*</span></label>
+        <select
+          id='occupation'
+          value={occupation}
+          onChange={({ target }) => {setOccupation(target.value)}}
+        >
+          <option value=''>Select Occupation</option>
+            { options
+              ? options.occupations.map((occ, i) => (
+                <option key={i} value={occ}>{occ}</option>
+              ))
+              : null
+            }
+        </select>
+        <label htmlFor='state'>State <span>*</span></label>
+        <select
+          id='state'
+          value={state}
+          onChange={({ target }) => { setState(target.value)}}
+        >
+          <option value=''>Select State</option>
+            { options
+              ? options.states.map(({ name, abbreviation }) => (
+                <option key={abbreviation} value={abbreviation}>{name}</option>
+              ))
+              : null
+            }
+        </select>
+        <button className='btn-submit'> Create Account</button>
+      </form>
+    );
+  }
 };
 
 export default UserForm;
