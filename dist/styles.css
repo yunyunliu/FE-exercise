@@ -28,18 +28,22 @@ input {
   margin: 10px
 }
 
+.center-text {
+  text-align: center;
+}
+
 select,
 input {
   text-indent: 10px;
 }
 
 select {
-  /* appearance: none; */
   width: 302px;
   height: 32px;
   margin: 10px;
 }
 
+.success,
 form {
   display: flex;
   flex-direction: column;
@@ -92,4 +96,19 @@ select:focus {
 
 .note-list {
   margin: 0;
+}
+
+.back-btn {
+  border: none;
+  background-color: white;
+  color: #3A2778;
+  font-weight: 700;
+}
+
+.back-btn:hover {
+  color: #9b85e2;
+}
+
+button:hover {
+  cursor: pointer;
 }

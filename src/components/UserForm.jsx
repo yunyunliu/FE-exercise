@@ -13,7 +13,7 @@ const UserForm = () => {
   const [state, setState] = useState('');
 
   const [missing, setMissing] = useState([]);
-  const [view, setView] = useState('user-form');
+  const [view, setView] = useState('user');
   const [errMessage, setErrMessage] = useState('');
 
   const url = 'https://frontend-take-home.fetchrewards.com/form';
@@ -27,23 +27,33 @@ const UserForm = () => {
 
   const handleSubmit = async e => {
     e.preventDefault(); // prevent page reload
-    if (name && email && password && occupation && state) { // validate data -> check for any fields left blank
-      setMissing([]); // clear missing fields to make sure Notification component is not displayed
+    const formatted = { // remove whitespace
+        name: name.trim(),
+        email: email.trim(),
+        password: password.trim(),
+        state, // state and occupation don't need trimming
+        occupation
+    };
+    if (formatted.name && formatted.email && formatted.password && occupation && state) { // if fields all filled, send post request
+      setMissing([]); // clear missing fields so Notification component is not displayed
+      if (!email.includes('@')) { // or regular expression for email address and .test() method
+        setErrMessage('Enter a valid email address.');
+        return;
+      }
       const res = await fetch(url, { // make POST request
         method: 'POST',
-        body: JSON.stringify({ name, email, password, occupation, state }),
+        body: JSON.stringify(formatted),
         headers: { 'Content-Type': 'application/json' }
       });
-      if (res.ok) { // if POST request is successful, show success message
+      if (res.ok) { // if request successful, show success message; otherwise set error message
         setView('success')
       } else { // otherwise set error message to be displayed
         setErrMessage('An error occurred. Try again later.');
       }
-    } else { // missing data
-      const missing = [];
-      const userData = { name, email, password, occupation, state };
-      for (const field in userData) { // find which fields were left blank; push them into an array
-        if (!userData[field]) {
+    } else {
+      const missing = []; // contains names of fields left empty by user; is passed into Notification component
+      for (const field in formatted) {
+        if (!formatted[field]) {
           missing.push(field);
         }
       }
@@ -51,26 +61,25 @@ const UserForm = () => {
     }
   };
 
-  const ErrorMessage = () => (
+  const showError = () => (
     <div className='notification'>
        <span className='red-text bold error-text'>{errMessage}</span>
     </div>
   );
 
-  if (view === 'success') {
-    return (
-      <div>
-        <p>Successfully created new user.</p>
+  const showSuccess = () => (
+      <div className='success'>
+        <p className='center-text'>New user account created.</p>
+        <button type='button' className='back-btn' onClick={() => setView('user')}>Back</button>
       </div>
-    );
-  }
-  return (
+  );
+
+  const showForm = () => (
     <form onSubmit={e => handleSubmit(e)}>
-      <h2>Sign-Up</h2>
       { missing.length > 0
           ? <Notification missing={missing} />
           : null }
-      { errMessage ? ErrorMessage() : null }
+      { errMessage ? showError() : null }
       <label htmlFor='name'> Full Name <span>*</span></label>
       <input
         id='name'
@@ -82,7 +91,6 @@ const UserForm = () => {
       <label htmlFor='email'> Email <span>*</span></label>
       <input
         id='email'
-        // type='email'
         className='gray-border'
         placeholder='Email'
         value={email}
@@ -126,6 +134,16 @@ const UserForm = () => {
       </select>
       <button className='btn-submit'> Create Account</button>
     </form>
+  );
+
+  return (
+    <div>
+      <h2 className='center-text'>Sign-Up</h2>
+      { view === 'success'
+          ? showSuccess()
+          : showForm()
+      }
+    </div>
   );
 };
 
