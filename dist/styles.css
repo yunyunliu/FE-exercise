@@ -28,13 +28,16 @@ input {
   margin: 10px
 }
 
+.center-text {
+  text-align: center;
+}
+
 select,
 input {
   text-indent: 10px;
 }
 
 select {
-  /* appearance: none; */
   width: 302px;
   height: 32px;
   margin: 10px;
@@ -92,4 +95,24 @@ select:focus {
 
 .note-list {
   margin: 0;
+}
+
+/* .success {
+  text-align: center;
+  padding-top: 150px;
+} */
+
+.back-btn {
+  border: none;
+  background-color: white;
+  color: #3A2778;
+  font-weight: 700;
+  /* font-size: 16px; */
+}
+
+.back-btn:hover {
+}
+
+button:hover {
+  cursor: pointer;
 }

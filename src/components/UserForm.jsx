@@ -35,12 +35,6 @@ const UserForm = () => {
         headers: { 'Content-Type': 'application/json' }
       });
       if (res.ok) {
-        // setErrMessage('');
-        // setName(''); // clear form fields
-        // setEmail('');
-        // setPassword('');
-        // setOccupation('');
-        // setState('');
         setView('success')
       } else {
         setErrMessage('An error occurred. Try again later.');
@@ -65,14 +59,16 @@ const UserForm = () => {
 
   if (view === 'success') {
     return (
-      <div>
+      <div className='success'>
         <p>Successfully created new user.</p>
+        <button type='button' className='back-btn' onClick={() => setView('user')}>Back</button>
       </div>
     )
-  } else {
-    return (
+  }
+  return (
+    <div>
+      <h2 className='center-text'>Sign-Up</h2>
       <form onSubmit={e => handleSubmit(e)}>
-        <h2>Sign-Up</h2>
         { missing.length > 0
             ? <Notification missing={missing} />
             : null }
@@ -132,8 +128,8 @@ const UserForm = () => {
         </select>
         <button className='btn-submit'> Create Account</button>
       </form>
-    );
-  }
+    </div>
+  );
 };
 
 export default UserForm;
