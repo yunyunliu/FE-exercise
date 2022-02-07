@@ -43,6 +43,7 @@ select {
   margin: 10px;
 }
 
+.success,
 form {
   display: flex;
   flex-direction: column;
@@ -97,10 +98,10 @@ select:focus {
   margin: 0;
 }
 
-/* .success {
-  text-align: center;
-  padding-top: 150px;
-} */
+.success {
+
+  /* padding-top: 150px; */
+}
 
 .back-btn {
   border: none;
@@ -111,6 +112,7 @@ select:focus {
 }
 
 .back-btn:hover {
+  color: #9b85e2;
 }
 
 button:hover {

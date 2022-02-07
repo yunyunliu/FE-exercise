@@ -51,83 +51,89 @@ const UserForm = () => {
     }
   }
 
-  const ErrorMessage = () => (
+  const showError = () => (
     <div className='notification'>
        <span className='red-text bold error-text'>{errMessage}</span>
     </div>
   );
 
-  if (view === 'success') {
-    return (
+  const showSuccess = () => (
       <div className='success'>
-        <p>Successfully created new user.</p>
+        <p className='center-text'>New user account created.</p>
         <button type='button' className='back-btn' onClick={() => setView('user')}>Back</button>
       </div>
-    )
-  }
+  );
+
+  const showForm = () => (
+    <form onSubmit={e => handleSubmit(e)}>
+      { missing.length > 0
+          ? <Notification missing={missing} />
+          : null }
+      { errMessage ? showError() : null }
+      <label htmlFor='name'> Full Name <span>*</span></label>
+      <input
+        id='name'
+        className='gray-border'
+        placeholder='Name'
+        value={name}
+        onChange={({ target }) => {setName(target.value)}}
+      />
+      <label htmlFor='email'> Email <span>*</span></label>
+      <input
+        id='email'
+        // type='email'
+        className='gray-border'
+        placeholder='Email'
+        value={email}
+        onChange={({ target }) => {setEmail(target.value)}}
+      />
+      <label htmlFor='pass'> Password  <span>*</span></label>
+      <input
+        id='pass'
+        type='password'
+        placeholder='Password'
+        value={password}
+        onChange={({ target }) => {setPassword(target.value)}}
+      />
+      <label htmlFor='occupation'> Occupation <span>*</span></label>
+      <select
+        id='occupation'
+        value={occupation}
+        onChange={({ target }) => {setOccupation(target.value)}}
+      >
+        <option value=''>Select Occupation</option>
+          { options
+            ? options.occupations.map((occ, i) => (
+              <option key={i} value={occ}>{occ}</option>
+            ))
+            : null
+          }
+      </select>
+      <label htmlFor='state'>State <span>*</span></label>
+      <select
+        id='state'
+        value={state}
+        onChange={({ target }) => { setState(target.value)}}
+      >
+        <option value=''>Select State</option>
+          { options
+            ? options.states.map(({ name, abbreviation }) => (
+              <option key={abbreviation} value={abbreviation}>{name}</option>
+            ))
+            : null
+          }
+      </select>
+      <button className='btn-submit'> Create Account</button>
+    </form>
+  );
+
   return (
     <div>
       <h2 className='center-text'>Sign-Up</h2>
-      <form onSubmit={e => handleSubmit(e)}>
-        { missing.length > 0
-            ? <Notification missing={missing} />
-            : null }
-        { errMessage ? ErrorMessage() : null }
-        <label htmlFor='name'> Full Name <span>*</span></label>
-        <input
-          id='name'
-          className='gray-border'
-          placeholder='Name'
-          value={name}
-          onChange={({ target }) => {setName(target.value)}}
-        />
-        <label htmlFor='email'> Email <span>*</span></label>
-        <input
-          id='email'
-          // type='email'
-          className='gray-border'
-          placeholder='Email'
-          value={email}
-          onChange={({ target }) => {setEmail(target.value)}}
-        />
-        <label htmlFor='pass'> Password  <span>*</span></label>
-        <input
-          id='pass'
-          type='password'
-          placeholder='Password'
-          value={password}
-          onChange={({ target }) => {setPassword(target.value)}}
-        />
-        <label htmlFor='occupation'> Occupation <span>*</span></label>
-        <select
-          id='occupation'
-          value={occupation}
-          onChange={({ target }) => {setOccupation(target.value)}}
-        >
-          <option value=''>Select Occupation</option>
-            { options
-              ? options.occupations.map((occ, i) => (
-                <option key={i} value={occ}>{occ}</option>
-              ))
-              : null
-            }
-        </select>
-        <label htmlFor='state'>State <span>*</span></label>
-        <select
-          id='state'
-          value={state}
-          onChange={({ target }) => { setState(target.value)}}
-        >
-          <option value=''>Select State</option>
-            { options
-              ? options.states.map(({ name, abbreviation }) => (
-                <option key={abbreviation} value={abbreviation}>{name}</option>
-              ))
-              : null
-            }
-        </select>
-        <button className='btn-submit'> Create Account</button>
-      </form>
+      { view === 'success'
+          ? showSuccess()
+          : showForm()
+      }
     </div>
   );
 };
