@@ -98,17 +98,11 @@ select:focus {
   margin: 0;
 }
 
-.success {
-
-  /* padding-top: 150px; */
-}
-
 .back-btn {
   border: none;
   background-color: white;
   color: #3A2778;
   font-weight: 700;
-  /* font-size: 16px; */
 }
 
 .back-btn:hover {

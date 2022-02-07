@@ -13,7 +13,7 @@ const UserForm = () => {
   const [state, setState] = useState('');
 
   const [missing, setMissing] = useState([]);
-  const [view, setView] = useState('success');
+  const [view, setView] = useState('user');
   const [errMessage, setErrMessage] = useState('');
 
   const url = 'https://frontend-take-home.fetchrewards.com/form';
@@ -27,23 +27,33 @@ const UserForm = () => {
 
   const handleSubmit = async e => {
     e.preventDefault(); // prevent page reload
-    if (name && email && password && occupation && state) { // if fields all filled, send post request
+    const formatted = { // remove whitespace
+        name: name.trim(),
+        email: email.trim(),
+        password: password.trim(),
+        state, // state and occupation don't need trimming
+        occupation
+    };
+    if (formatted.name && formatted.email && formatted.password && occupation && state) { // if fields all filled, send post request
       setMissing([]); // clear missing fields so Notification component is not displayed
-      const res = await fetch(url, {
+      if (!email.includes('@')) { // or regular expression for email address and .test() method
+        setErrMessage('Enter a valid email address.');
+        return;
+      }
+      const res = await fetch(url, { // make POST request
         method: 'POST',
-        body: JSON.stringify({ name, email, password, occupation, state }),
+        body: JSON.stringify(formatted),
         headers: { 'Content-Type': 'application/json' }
       });
-      if (res.ok) {
+      if (res.ok) { // if request successful, show success message; otherwise set error message
         setView('success')
       } else {
         setErrMessage('An error occurred. Try again later.');
       }
     } else {
       const missing = []; // contains names of fields left empty by user; is passed into Notification component
-      const userData = { name, email, password, occupation, state };
-      for (const field in userData) {
-        if (!userData[field]) {
+      for (const field in formatted) {
+        if (!formatted[field]) {
           missing.push(field);
         }
       }
@@ -81,7 +91,6 @@ const UserForm = () => {
       <label htmlFor='email'> Email <span>*</span></label>
       <input
         id='email'
-        // type='email'
         className='gray-border'
         placeholder='Email'
         value={email}
